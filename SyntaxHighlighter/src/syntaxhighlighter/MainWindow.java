@@ -1,15 +1,37 @@
 package syntaxhighlighter;
 
+import java.awt.Image;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+
 public class MainWindow extends javax.swing.JFrame {
 
     public MainWindow() {
         initComponents();
-        rowsText.setFont(mainText.getFont());
 
+        //Load Icon
+        Image im = null;
+        try {
+            im = ImageIO.read(getClass().getResource("icon.png"));
+        } catch (IOException ex) {
+            System.out.println("Error loading icon:" + ex);
+        }
+        setIconImage(im);
+
+        //Allows both text boxes to scroll at same time
+        rowsText.setFont(mainText.getFont());
+        rowsPane.setVerticalScrollBar(mainPane.getVerticalScrollBar());
+
+        //Sets the total number of displayed lines to 1000 then generates the lines.
         int i;
         for (i = 1; i <= 1000; i++) {
             rowsText.append(Integer.toString(i) + "\n");
         }
+
+        //Sets focus of the window to the main text box.
+        mainText.requestFocus();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -29,6 +51,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         mainText.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 4, 1, 1));
         mainText.setFont(new java.awt.Font("Ubuntu Light", 0, 14)); // NOI18N
+        mainText.setSelectionColor(new java.awt.Color(0, 255, 102));
         mainText.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 autoScroll(evt);
@@ -62,7 +85,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(rowsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainPane, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                .addComponent(mainPane, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -70,8 +93,8 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mainPane)
-                    .addComponent(rowsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
+                    .addComponent(rowsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+                    .addComponent(mainPane))
                 .addContainerGap())
         );
 
@@ -80,16 +103,13 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void mainTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mainTextKeyTyped
 
-        // Scrolls at the same pace
-        rowsPane.setVerticalScrollBar(mainPane.getVerticalScrollBar());
-
         // To make the numbers relative.
-//    int countLine = mainText.getText().split("\n").length;
-//    int i;
-//    for(i=1;i<=countLine;i++){
-//        rowsText.append(Integer.toString(i)+ "\n");
-//    }
-        // TODO add your handling code here:
+        //    int countLine = mainText.getText().split("\n").length;
+        //    int i;
+        //    for(i=1;i<=countLine;i++){
+        //        rowsText.append(Integer.toString(i)+ "\n");
+        //    }
+
     }//GEN-LAST:event_mainTextKeyTyped
 
     private void autoScroll(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_autoScroll
@@ -101,7 +121,6 @@ public class MainWindow extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainWindow().setVisible(true);
-
             }
         });
     }

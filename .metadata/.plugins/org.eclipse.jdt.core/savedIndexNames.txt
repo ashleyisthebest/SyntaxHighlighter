@@ -1,0 +1,1 @@
+INDEX VERSION 1.127+C:\Users\Ashley\Documents\GitHub\SyntaxHighlighter\.metadata\.plugins\org.eclipse.jdt.core
