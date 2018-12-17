@@ -1,9 +1,13 @@
 package syntaxhighlighter;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.List;
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -42,6 +46,10 @@ public class MainWindow extends javax.swing.JFrame {
         mainText = new javax.swing.JTextPane();
         rowsPane = new javax.swing.JScrollPane();
         rowsText = new javax.swing.JTextArea();
+        languageBox = new javax.swing.JComboBox<>();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Syntax Highlighter");
@@ -77,24 +85,47 @@ public class MainWindow extends javax.swing.JFrame {
         rowsText.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 4, 1, 1));
         rowsPane.setViewportView(rowsText);
 
+        languageBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Python", "HTML", "C++" }));
+        languageBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        languageBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                languageBoxActionPerformed(evt);
+            }
+        });
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(rowsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainPane, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(rowsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(mainPane, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(languageBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(languageBox, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rowsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
-                    .addComponent(mainPane))
+                    .addComponent(mainPane)
+                    .addComponent(rowsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -102,6 +133,15 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mainTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mainTextKeyTyped
+        //Checks language
+        if (languageBox.getSelectedItem().equals("Python")) {
+            System.out.println("Python Selected");
+            python();
+        } else if (languageBox.getSelectedItem().equals("HTML")) {
+            System.out.println("HTML Selected");
+        } else if (languageBox.getSelectedItem().equals("C++")) {
+            System.out.println("C++ Selected");
+        }
 
         // To make the numbers relative.
         //    int countLine = mainText.getText().split("\n").length;
@@ -112,9 +152,41 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_mainTextKeyTyped
 
+    public void python() {
+
+        String text = mainText.getText();
+        int i;
+
+        // Sets default as black
+        SimpleAttributeSet black = new SimpleAttributeSet();
+        StyleConstants.setForeground(black, Color.BLACK);
+        StyledDocument mdoc = mainText.getStyledDocument();
+        mdoc.setCharacterAttributes(0, text.length(), black, false);
+
+        //Print
+        List<Integer> print = WordIndexer.findWord(text, "print");
+
+        SimpleAttributeSet blueattr = new SimpleAttributeSet();
+        StyleConstants.setForeground(blueattr, Color.blue);
+
+        StyledDocument bluedoc = mainText.getStyledDocument();
+
+        for (i = 0; i < print.size(); i++) {
+            bluedoc.setCharacterAttributes(print.get(i), 5, blueattr, false);
+        }
+
+        // Sets Print to blue
+
+
+    }
+
     private void autoScroll(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_autoScroll
 
     }//GEN-LAST:event_autoScroll
+
+    private void languageBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_languageBoxActionPerformed
+
+    }//GEN-LAST:event_languageBoxActionPerformed
 
     public static void main(String args[]) {
 
@@ -126,6 +198,10 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JComboBox<String> languageBox;
     private javax.swing.JScrollPane mainPane;
     private javax.swing.JTextPane mainText;
     private javax.swing.JScrollPane rowsPane;
