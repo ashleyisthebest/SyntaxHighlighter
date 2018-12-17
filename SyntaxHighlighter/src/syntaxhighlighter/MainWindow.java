@@ -12,7 +12,7 @@ import javax.swing.text.StyledDocument;
 public class MainWindow extends javax.swing.JFrame {
 
     public String text;
-    
+
     public MainWindow() {
         initComponents();
         loadIcon();
@@ -153,7 +153,7 @@ public class MainWindow extends javax.swing.JFrame {
             System.out.println("C++ Selected");
         }
 
-        // To make the numbers relative.
+        //    To make the numbers relative.
         //    int countLine = mainText.getText().split("\n").length;
         //    int i;
         //    for(i=1;i<=countLine;i++){
@@ -167,13 +167,37 @@ public class MainWindow extends javax.swing.JFrame {
         text = mainText.getText();
 
         // Sets default as black
+        setToBlack();
+
+        // Finding key terms
+        // 2 Letters
+        pyIf();
+        pyIn();
+
+        // 3 Letters
+        pyInt();
+        pyDef();
+        pyFor();
+        pyNot();
+
+        // 4 Letters
+        pyElif();
+
+        // 5 Letters
+        pyPrint();
+
+        // 6 Letters
+        pyString();
+        pyReturn();
+
+    }
+
+    public void setToBlack() {
+        // Sets default as black
         SimpleAttributeSet black = new SimpleAttributeSet();
         StyleConstants.setForeground(black, Color.BLACK);
         StyledDocument mdoc = mainText.getStyledDocument();
         mdoc.setCharacterAttributes(0, text.length(), black, false);
-
-        pyPrint();
-        
     }
 
     public void pyPrint() {
@@ -189,6 +213,150 @@ public class MainWindow extends javax.swing.JFrame {
         int i;
         for (i = 0; i < print.size(); i++) {
             bluedoc.setCharacterAttributes(print.get(i), 5, blueattr, false);
+        }
+    }
+
+    public void pyInt() {
+        //Finds print
+        List<Integer> print = WordIndexer.findWord(text, "int");
+
+        //Sets print to blue
+        SimpleAttributeSet blueattr = new SimpleAttributeSet();
+        StyleConstants.setForeground(blueattr, Color.GREEN);
+        StyledDocument bluedoc = mainText.getStyledDocument();
+
+        //Applies setting to all instances
+        int i;
+        for (i = 0; i < print.size(); i++) {
+            bluedoc.setCharacterAttributes(print.get(i), 3, blueattr, false);
+        }
+    }
+
+    public void pyString() {
+        //Finds print
+        List<Integer> print = WordIndexer.findWord(text, "string");
+
+        //Sets print to blue
+        SimpleAttributeSet blueattr = new SimpleAttributeSet();
+        StyleConstants.setForeground(blueattr, Color.GREEN);
+        StyledDocument bluedoc = mainText.getStyledDocument();
+
+        //Applies setting to all instances
+        int i;
+        for (i = 0; i < print.size(); i++) {
+            bluedoc.setCharacterAttributes(print.get(i), 6, blueattr, false);
+        }
+    }
+
+    public void pyDef() {
+        //Finds print
+        List<Integer> print = WordIndexer.findWord(text, "def");
+
+        //Sets print to blue
+        SimpleAttributeSet blueattr = new SimpleAttributeSet();
+        StyleConstants.setForeground(blueattr, Color.GREEN);
+        StyledDocument bluedoc = mainText.getStyledDocument();
+
+        //Applies setting to all instances
+        int i;
+        for (i = 0; i < print.size(); i++) {
+            bluedoc.setCharacterAttributes(print.get(i), 3, blueattr, false);
+        }
+    }
+
+    public void pyReturn() {
+        //Finds print
+        List<Integer> print = WordIndexer.findWord(text, "return");
+
+        //Sets print to blue
+        SimpleAttributeSet blueattr = new SimpleAttributeSet();
+        StyleConstants.setForeground(blueattr, Color.GREEN);
+        StyledDocument bluedoc = mainText.getStyledDocument();
+
+        //Applies setting to all instances
+        int i;
+        for (i = 0; i < print.size(); i++) {
+            bluedoc.setCharacterAttributes(print.get(i), 6, blueattr, false);
+        }
+    }
+
+    public void pyIf() {
+        //Finds print
+        List<Integer> print = WordIndexer.findWord(text, "if");
+
+        //Sets print to blue
+        SimpleAttributeSet blueattr = new SimpleAttributeSet();
+        StyleConstants.setForeground(blueattr, Color.GREEN);
+        StyledDocument bluedoc = mainText.getStyledDocument();
+
+        //Applies setting to all instances
+        int i;
+        for (i = 0; i < print.size(); i++) {
+            bluedoc.setCharacterAttributes(print.get(i), 2, blueattr, false);
+        }
+    }
+
+    public void pyElif() {
+        //Finds print
+        List<Integer> print = WordIndexer.findWord(text, "elif");
+
+        //Sets print to blue
+        SimpleAttributeSet blueattr = new SimpleAttributeSet();
+        StyleConstants.setForeground(blueattr, Color.GREEN);
+        StyledDocument bluedoc = mainText.getStyledDocument();
+
+        //Applies setting to all instances
+        int i;
+        for (i = 0; i < print.size(); i++) {
+            bluedoc.setCharacterAttributes(print.get(i), 4, blueattr, false);
+        }
+    }
+
+    public void pyFor() {
+        //Finds print
+        List<Integer> print = WordIndexer.findWord(text, "for");
+
+        //Sets print to blue
+        SimpleAttributeSet blueattr = new SimpleAttributeSet();
+        StyleConstants.setForeground(blueattr, Color.GREEN);
+        StyledDocument bluedoc = mainText.getStyledDocument();
+
+        //Applies setting to all instances
+        int i;
+        for (i = 0; i < print.size(); i++) {
+            bluedoc.setCharacterAttributes(print.get(i), 3, blueattr, false);
+        }
+    }
+
+    public void pyNot() {
+        //Finds print
+        List<Integer> print = WordIndexer.findWord(text, "not");
+
+        //Sets print to blue
+        SimpleAttributeSet blueattr = new SimpleAttributeSet();
+        StyleConstants.setForeground(blueattr, Color.GREEN);
+        StyledDocument bluedoc = mainText.getStyledDocument();
+
+        //Applies setting to all instances
+        int i;
+        for (i = 0; i < print.size(); i++) {
+            bluedoc.setCharacterAttributes(print.get(i), 3, blueattr, false);
+        }
+    }
+
+    public void pyIn() {
+        //Finds print
+        List<Integer> print = WordIndexer.findWord(text, "in");
+
+        //Sets print to blue
+        SimpleAttributeSet blueattr = new SimpleAttributeSet();
+        StyleConstants.setForeground(blueattr, Color.GREEN);
+        StyledDocument bluedoc = mainText.getStyledDocument();
+
+        //Applies setting to all instances
+        int i;
+        for (i = 0; i < print.size(); i++) {
+            bluedoc.setCharacterAttributes(print.get(i), 2, blueattr, false);
         }
     }
 
