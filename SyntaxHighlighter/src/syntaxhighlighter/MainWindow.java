@@ -11,17 +11,11 @@ import javax.swing.text.StyledDocument;
 
 public class MainWindow extends javax.swing.JFrame {
 
+    public String text;
+    
     public MainWindow() {
         initComponents();
-
-        //Load Icon
-        Image im = null;
-        try {
-            im = ImageIO.read(getClass().getResource("icon.png"));
-        } catch (IOException ex) {
-            System.out.println("Error loading icon:" + ex);
-        }
-        setIconImage(im);
+        loadIcon();
 
         //Allows both text boxes to scroll at same time
         rowsText.setFont(mainText.getFont());
@@ -36,6 +30,17 @@ public class MainWindow extends javax.swing.JFrame {
         //Sets focus of the window to the main text box.
         mainText.requestFocus();
 
+    }
+
+    public void loadIcon() {
+        //Load Icon
+        Image im = null;
+        try {
+            im = ImageIO.read(getClass().getResource("icon.png"));
+        } catch (IOException ex) {
+            System.out.println("Error loading icon:" + ex);
+        }
+        setIconImage(im);
     }
 
     @SuppressWarnings("unchecked")
@@ -133,6 +138,11 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mainTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mainTextKeyTyped
+        //Everything in here will execute every time a key is pressed.
+        checkLanguage();
+    }//GEN-LAST:event_mainTextKeyTyped
+
+    public void checkLanguage() {
         //Checks language
         if (languageBox.getSelectedItem().equals("Python")) {
             System.out.println("Python Selected");
@@ -149,13 +159,12 @@ public class MainWindow extends javax.swing.JFrame {
         //    for(i=1;i<=countLine;i++){
         //        rowsText.append(Integer.toString(i)+ "\n");
         //    }
-
-    }//GEN-LAST:event_mainTextKeyTyped
+    }
 
     public void python() {
 
-        String text = mainText.getText();
-        int i;
+        // Turns all user text into string
+        text = mainText.getText();
 
         // Sets default as black
         SimpleAttributeSet black = new SimpleAttributeSet();
@@ -163,21 +172,24 @@ public class MainWindow extends javax.swing.JFrame {
         StyledDocument mdoc = mainText.getStyledDocument();
         mdoc.setCharacterAttributes(0, text.length(), black, false);
 
-        //Print
+        pyPrint();
+        
+    }
+
+    public void pyPrint() {
+        //Finds print
         List<Integer> print = WordIndexer.findWord(text, "print");
 
+        //Sets print to blue
         SimpleAttributeSet blueattr = new SimpleAttributeSet();
         StyleConstants.setForeground(blueattr, Color.blue);
-
         StyledDocument bluedoc = mainText.getStyledDocument();
 
+        //Applies setting to all instances
+        int i;
         for (i = 0; i < print.size(); i++) {
             bluedoc.setCharacterAttributes(print.get(i), 5, blueattr, false);
         }
-
-        // Sets Print to blue
-
-
     }
 
     private void autoScroll(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_autoScroll
