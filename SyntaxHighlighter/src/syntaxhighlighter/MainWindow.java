@@ -2,9 +2,11 @@ package syntaxhighlighter;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.Window;
 import java.io.IOException;
 import java.util.List;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -14,6 +16,7 @@ public class MainWindow extends javax.swing.JFrame {
     public String text;
 
     public MainWindow() {
+
         initComponents();
         loadIcon();
 
@@ -54,6 +57,8 @@ public class MainWindow extends javax.swing.JFrame {
         languageBox = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        Open = new javax.swing.JMenuItem();
+        Save = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -92,6 +97,7 @@ public class MainWindow extends javax.swing.JFrame {
         rowsPane.setViewportView(rowsText);
 
         languageBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Python", "HTML", "C++" }));
+        languageBox.setToolTipText("Select Language");
         languageBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         languageBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,6 +106,20 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         jMenu1.setText("File");
+        jMenu1.setName(""); // NOI18N
+
+        Open.setText("Open");
+        Open.setPreferredSize(new java.awt.Dimension(150, 22));
+        Open.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpenActionPerformed(evt);
+            }
+        });
+        jMenu1.add(Open);
+
+        Save.setText("Save");
+        jMenu1.add(Save);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -115,12 +135,10 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(rowsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mainPane, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(languageBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(rowsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(mainPane, javax.swing.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE))
+                    .addComponent(languageBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -134,6 +152,8 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(rowsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -189,7 +209,7 @@ public class MainWindow extends javax.swing.JFrame {
         pyDivide();
         pyPercent();
         pyEquals();
-        
+
         // 2 Letters
         pyIf();
         pyIn();
@@ -737,7 +757,7 @@ public class MainWindow extends javax.swing.JFrame {
             bluedoc.setCharacterAttributes(print.get(i), 1, blueattr, false);
         }
     }
-    
+
     public void pyEquals() {
         //Finds print
         List<Integer> print = WordIndexer.findWord(text, "=");
@@ -762,16 +782,43 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_languageBoxActionPerformed
 
+    private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
+
+        // Opens File
+        OpenFile of = new OpenFile();
+        try {
+            of.Open();
+            this.setTitle(of.file + " - Syntax Highlighter");
+            mainText.setText(of.sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        // Refresh so it highlights all the code again
+        if (languageBox.getSelectedItem().equals("Python")) {
+            System.out.println("Python Selected");
+            python();
+        } else if (languageBox.getSelectedItem().equals("HTML")) {
+            System.out.println("HTML Selected");
+        } else if (languageBox.getSelectedItem().equals("C++")) {
+            System.out.println("C++ Selected");
+        }
+
+    }//GEN-LAST:event_OpenActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainWindow().setVisible(true);
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Open;
+    private javax.swing.JMenuItem Save;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
