@@ -2,11 +2,12 @@ package syntaxhighlighter;
 
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.Window;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -14,7 +15,9 @@ import javax.swing.text.StyledDocument;
 public class MainWindow extends javax.swing.JFrame {
 
     public String text;
-
+    public boolean fileOpen = false;
+    public String filePathString;
+    
     public MainWindow() {
 
         initComponents();
@@ -54,7 +57,7 @@ public class MainWindow extends javax.swing.JFrame {
         mainText = new javax.swing.JTextPane();
         rowsPane = new javax.swing.JScrollPane();
         rowsText = new javax.swing.JTextArea();
-        languageBox = new javax.swing.JComboBox<>();
+        languageBox = new javax.swing.JComboBox<String>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         Open = new javax.swing.JMenuItem();
@@ -96,7 +99,7 @@ public class MainWindow extends javax.swing.JFrame {
         rowsText.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 4, 1, 1));
         rowsPane.setViewportView(rowsText);
 
-        languageBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Python", "HTML", "C++" }));
+        languageBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Python", "HTML", "C++" }));
         languageBox.setToolTipText("Select Language");
         languageBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         languageBox.addActionListener(new java.awt.event.ActionListener() {
@@ -118,6 +121,11 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1.add(Open);
 
         Save.setText("Save");
+        Save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveActionPerformed(evt);
+            }
+        });
         jMenu1.add(Save);
 
         jMenuBar1.add(jMenu1);
@@ -790,10 +798,12 @@ public class MainWindow extends javax.swing.JFrame {
             of.Open();
             this.setTitle(of.file + " - Syntax Highlighter");
             mainText.setText(of.sb.toString());
+            fileOpen = true;
+            filePathString = of.file.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         // Refresh so it highlights all the code again
         if (languageBox.getSelectedItem().equals("Python")) {
             System.out.println("Python Selected");
@@ -805,6 +815,26 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_OpenActionPerformed
+
+    private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
+
+        OpenFile of = new OpenFile();
+
+        try {
+            if (fileOpen == true) {
+                // Gets all content to save
+                String fileContent = mainText.getText();
+                // Creates new path with the file location
+                Path path = Paths.get(filePathString);
+                // Writes the file
+                Files.write(path, fileContent.getBytes());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }//GEN-LAST:event_SaveActionPerformed
 
     public static void main(String args[]) {
 
