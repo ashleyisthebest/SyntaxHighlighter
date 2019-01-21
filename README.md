@@ -7,4 +7,5 @@ Currently supported languages:
 Features:
 - Line counter
 - File opener
+- File saver
 - Keyword highlighting 
