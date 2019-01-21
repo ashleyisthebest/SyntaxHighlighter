@@ -17,7 +17,7 @@ public class MainWindow extends javax.swing.JFrame {
     public String text;
     public boolean fileOpen = false;
     public String filePathString;
-    
+
     public MainWindow() {
 
         initComponents();
@@ -58,6 +58,8 @@ public class MainWindow extends javax.swing.JFrame {
         rowsPane = new javax.swing.JScrollPane();
         rowsText = new javax.swing.JTextArea();
         languageBox = new javax.swing.JComboBox<String>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         Open = new javax.swing.JMenuItem();
@@ -108,6 +110,10 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Chars:");
+
+        jLabel2.setText("Lines:");
+
         jMenu1.setText("File");
         jMenu1.setName(""); // NOI18N
 
@@ -146,18 +152,27 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(rowsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(mainPane, javax.swing.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE))
-                    .addComponent(languageBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(languageBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(languageBox, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(languageBox, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mainPane)
-                    .addComponent(rowsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE))
+                    .addComponent(rowsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -169,7 +184,26 @@ public class MainWindow extends javax.swing.JFrame {
     private void mainTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mainTextKeyTyped
         //Everything in here will execute every time a key is pressed.
         checkLanguage();
+        charCount();
+        lineCount();
     }//GEN-LAST:event_mainTextKeyTyped
+
+    public void lineCount() {
+        text = mainText.getText();
+        int numOfLines = countLines(text);
+        jLabel2.setText("Lines: " + numOfLines);    
+    }
+
+    private static int countLines(String str) {
+        String[] lines = str.split("\r\n|\r|\n");
+        return lines.length;
+    }
+
+    public void charCount() {
+        text = mainText.getText();
+        int numOfChars = text.length();
+        jLabel1.setText("Chars: " + numOfChars);
+    }
 
     public void checkLanguage() {
         //Checks language
@@ -849,6 +883,8 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Open;
     private javax.swing.JMenuItem Save;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
