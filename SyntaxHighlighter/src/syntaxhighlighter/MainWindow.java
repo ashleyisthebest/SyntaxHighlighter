@@ -1,6 +1,7 @@
 package syntaxhighlighter;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +18,7 @@ public class MainWindow extends javax.swing.JFrame {
     public String text;
     public boolean fileOpen = false;
     public String filePathString;
+    public int fontSize = 18;
 
     public MainWindow() {
 
@@ -65,6 +67,9 @@ public class MainWindow extends javax.swing.JFrame {
         Open = new javax.swing.JMenuItem();
         Save = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        ZoomIn = new javax.swing.JMenuItem();
+        ZoomOut = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Syntax Highlighter");
@@ -139,6 +144,26 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
+        jMenu3.setText("View");
+
+        ZoomIn.setLabel("Zoom In");
+        ZoomIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ZoomInActionPerformed(evt);
+            }
+        });
+        jMenu3.add(ZoomIn);
+
+        ZoomOut.setText("Zoom Out");
+        ZoomOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ZoomOutActionPerformed(evt);
+            }
+        });
+        jMenu3.add(ZoomOut);
+
+        jMenuBar1.add(jMenu3);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -191,7 +216,7 @@ public class MainWindow extends javax.swing.JFrame {
     public void lineCount() {
         text = mainText.getText();
         int numOfLines = countLines(text);
-        jLabel2.setText("Lines: " + numOfLines);    
+        jLabel2.setText("Lines: " + numOfLines);
     }
 
     private static int countLines(String str) {
@@ -870,6 +895,18 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_SaveActionPerformed
 
+    private void ZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZoomInActionPerformed
+        fontSize += 10;
+        mainText.setFont(new Font("Courier New", Font.PLAIN, fontSize));
+        rowsText.setFont(new Font("Courier New", Font.PLAIN, fontSize));
+    }//GEN-LAST:event_ZoomInActionPerformed
+
+    private void ZoomOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZoomOutActionPerformed
+        fontSize -= 10;
+        mainText.setFont(new Font("Courier New", Font.PLAIN, fontSize));
+        rowsText.setFont(new Font("Courier New", Font.PLAIN, fontSize));
+    }//GEN-LAST:event_ZoomOutActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -883,10 +920,13 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Open;
     private javax.swing.JMenuItem Save;
+    private javax.swing.JMenuItem ZoomIn;
+    private javax.swing.JMenuItem ZoomOut;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JComboBox<String> languageBox;
     private javax.swing.JScrollPane mainPane;
